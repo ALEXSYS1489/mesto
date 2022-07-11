@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Место</title>
+  <link rel="stylesheet" href="./pages/index.css">
+</head>
+
+<body>
+  <div class="page">
+    <header class="header">
+      <img class="header__logo" src="./images/logo.svg" alt="Логотип Место">
+    </header>
+    <main>
+      <section class="profile">
+        <img class="profile__image" src="./images/Avatar.jpg" alt="Аватар">
+        <div class="profile__info">
+          <h1 class="profile__name">Жак-Ив Кусто </button></h1>
+          <button class="profile__edit-button"></button>
+          <p class="profile__about">Исследователь океана</p>
+        </div>
+        <button class="profile__add-button"></button>
+      </section>
+      <section class="elements">
+        <div class="element">
+          <img class="element__image" src="./images/elements/aleksandr-grekov-9OCd1cApeH4-unsplash (1).jpg"
+            alt="Водопад">
+          <div class="element__info">
+            <h2 class="element__name">Водопад</h2>
+            <button class="element__like"></button>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="./images/elements/gilles-trenson-t9MP5ZyTxlI-unsplash.jpg" alt="Скала">
+          <div class="element__info">
+            <h2 class="element__name">Скала</h2>
+            <button class="element__like"></button>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="./images/elements/julien-riedel-9QFd5NlZG8M-unsplash.jpg" alt="Часовня">
+          <div class="element__info">
+            <h2 class="element__name">Часовня</h2>
+            <button class="element__like"></button>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="./images/elements/kevin-staub-CQKbIM0OeCc-unsplash.jpg" alt="Лес">
+          <div class="element__info">
+            <h2 class="element__name">Лес</h2>
+            <button class="element__like"></button>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="./images/elements/sharad-bhat-Z4s2K8GQ5QE-unsplash.jpg" alt="Туман">
+          <div class="element__info">
+            <h2 class="element__name">Туман</h2>
+            <button class="element__like"></button>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="./images/elements/tingfeng-xia-Z96hjT7XuMM-unsplash.jpg" alt="Берег">
+          <div class="element__info">
+            <h2 class="element__name">Берег</h2>
+            <button class="element__like"></button>
+          </div>
+        </div>
+      </section>
+      <div class="popup">
+        <div class="popup__container">
+          <button class="popup__close"></button>
+          <form class="popup__form" action="">
+            <h2 class="popup__info">Редактировать профиль</h2>
+            <input type="text" class="popup__name">
+            <input type="text" class="popup__about">
+            <button type="submit" class="popup__save">Сохранить</button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <footer class="footer">
+      <h2 class="footer__text">&#169; 2022 Mesto Russia</h2>
+    </footer>
+    <script src="./skript.js"></script>
+  </div>
+</body>
+
+</html>
