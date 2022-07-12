@@ -18,10 +18,10 @@
         <img class="profile__image" src="./images/Avatar.jpg" alt="Аватар">
         <div class="profile__info">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
-          <button class="profile__edit-button"></button>
+          <button type="button" class="profile__edit-button"></button>
           <p class="profile__about">Исследователь океана</p>
         </div>
-        <button class="profile__add-button"></button>
+        <button type="button" class="profile__add-button"></button>
       </section>
       <section class="elements">
         <div class="element">
@@ -29,62 +29,62 @@
             alt="Водопад">
           <div class="element__info">
             <h2 class="element__name">Водопад</h2>
-            <button class="element__like"></button>
+            <button type="button" class="element__like"></button>
           </div>
         </div>
         <div class="element">
           <img class="element__image" src="./images/elements/gilles-trenson-t9MP5ZyTxlI-unsplash.jpg" alt="Скала">
           <div class="element__info">
             <h2 class="element__name">Скала</h2>
-            <button class="element__like"></button>
+            <button type="button" class="element__like"></button>
           </div>
         </div>
         <div class="element">
           <img class="element__image" src="./images/elements/julien-riedel-9QFd5NlZG8M-unsplash.jpg" alt="Часовня">
           <div class="element__info">
             <h2 class="element__name">Часовня</h2>
-            <button class="element__like"></button>
+            <button type="button" class="element__like"></button>
           </div>
         </div>
         <div class="element">
           <img class="element__image" src="./images/elements/kevin-staub-CQKbIM0OeCc-unsplash.jpg" alt="Лес">
           <div class="element__info">
             <h2 class="element__name">Лес</h2>
-            <button class="element__like"></button>
+            <button type="button" class="element__like"></button>
           </div>
         </div>
         <div class="element">
           <img class="element__image" src="./images/elements/sharad-bhat-Z4s2K8GQ5QE-unsplash.jpg" alt="Туман">
           <div class="element__info">
             <h2 class="element__name">Туман</h2>
-            <button class="element__like"></button>
+            <button type="button" class="element__like"></button>
           </div>
         </div>
         <div class="element">
           <img class="element__image" src="./images/elements/tingfeng-xia-Z96hjT7XuMM-unsplash.jpg" alt="Берег">
           <div class="element__info">
             <h2 class="element__name">Берег</h2>
-            <button class="element__like"></button>
+            <button type="button" class="element__like"></button>
           </div>
         </div>
       </section>
-      <div class="popup">
-        <div class="popup__container">
-          <button class="popup__close"></button>
-          <form class="popup__form">
-            <h2 class="popup__info">Редактировать профиль</h2>
-            <input type="text" class="popup__name">
-            <input type="text" class="popup__about">
-            <button type="submit" class="popup__save">Сохранить</button>
-          </form>
-        </div>
-      </div>
     </main>
+    <div class="popup">
+      <div class="popup__container">
+        <button type="button" class="popup__close"></button>
+        <form name="profile" class="popup__form">
+          <h2 class="popup__info">Редактировать профиль</h2>
+          <input name="name" type="text" class="popup__input popup__input_value_name">
+          <input name="about" type="text" class="popup__input popup__input_value_about">
+          <button type="submit" class="popup__save">Сохранить</button>
+        </form>
+      </div>
+    </div>
     <footer class="footer">
-      <h2 class="footer__text">&#169; 2022 Mesto Russia</h2>
+      <p class="footer__text">&#169; 2022 Mesto Russia</p>
     </footer>
-    <script src="./skript.js"></script>
   </div>
+  <script src="./scripts/index.js"></script>
 </body>
 
 </html>
