@@ -1,36 +1,40 @@
 const editPopupOpenButton = document.querySelector(".profile__edit-button");
 const editPopupBlock = document.querySelector(".popup_type_edit");
-const editPopupClose = editPopupBlock.querySelector(".popup__close");
-const editPopupSave = editPopupBlock.querySelector(".popup__form");
+const editPopupCloseButton = editPopupBlock.querySelector(".popup__close");
+const editPopupForm = editPopupBlock.querySelector(".popup__form");
 
-let editPopupName = editPopupBlock.querySelector(".popup__input_value_name");
-let editPopupAbout = editPopupBlock.querySelector(".popup__input_value_about");
-let profileName = document.querySelector(".profile__name");
-let profileAbout = document.querySelector(".profile__about");
+const editPopupName = editPopupBlock.querySelector(".popup__input_value_name");
+const editPopupAbout = editPopupBlock.querySelector(".popup__input_value_about");
+const profileName = document.querySelector(".profile__name");
+const profileAbout = document.querySelector(".profile__about");
+
+function openPopup(popup) {
+  popup.classList.add("popup_is-opened")
+}
+
+function closePopup(popup) {
+  popup.classList.remove("popup_is-opened");
+}
 
 function openEditPopup() {
-  editPopupBlock.classList.add("popup_is-opened");
+  openPopup (editPopupBlock);
   editPopupName.value = profileName.textContent;
   editPopupAbout.value = profileAbout.textContent;
 };
-
-function closeEditPopup () {
-  editPopupBlock.classList.remove("popup_is-opened");
-}
 
 function saveEditPopup (evt) {
   evt.preventDefault();
   profileName.textContent = editPopupName.value;
   profileAbout.textContent = editPopupAbout.value;
-  closeEditPopup();
+  closePopup (editPopupBlock);
 };
 
 editPopupOpenButton.addEventListener("click", openEditPopup);
-editPopupClose.addEventListener("click", closeEditPopup);
-editPopupSave.addEventListener("submit", saveEditPopup);
+editPopupCloseButton.addEventListener("click", (event) => {closePopup (editPopupBlock);});
+editPopupForm.addEventListener("submit", saveEditPopup);
 
 const elements = document.querySelector('.elements')
-const templete = document.querySelector("#element-template").content.querySelector(".element")
+const elementTemplete = document.querySelector("#element-template").content.querySelector(".element")
 
 const initialCards = [
   {
@@ -59,15 +63,8 @@ const initialCards = [
   }
 ];
 
-const initialCardsNames = initialCards.map(function (el) {
-  return el.name;
-})
-const initialCardsLinks = initialCards.map(function (el) {
-  return el.link;
-})
-
 function createElement(name, link) {
-  const element = templete.cloneNode(true);
+  const element = elementTemplete.cloneNode(true);
   const elementImage = element.querySelector(".element__image");
   const elementName = element.querySelector(".element__name");
 
@@ -77,32 +74,27 @@ function createElement(name, link) {
 
   const elementButtonDel = element.querySelector(".element__remove")
   elementButtonDel.addEventListener('click', function(){
-    element.remove();})
+    element.remove();
+  })
 
   function openPopupImage() {
     const imagePopupBlock = document.querySelector(".popup_type_image");
-    const imagePopupClose = imagePopupBlock.querySelector(".popup__close");
+    const imagePopupCloseButton = imagePopupBlock.querySelector(".popup__close");
 
-    let imagePopupImg = imagePopupBlock.querySelector(".popup__image");
-    let imagePopupName = imagePopupBlock.querySelector(".popup__image-name");
+    const imagePopupImg = imagePopupBlock.querySelector(".popup__image");
+    const imagePopupName = imagePopupBlock.querySelector(".popup__image-name");
 
     imagePopupName.textContent = name
     imagePopupImg.setAttribute ('src', link)
     imagePopupImg.setAttribute ('alt', name)
 
-    imagePopupBlock.classList.add("popup_is-opened");
+    openPopup(imagePopupBlock);
 
-    function closePopupImage () {
-      imagePopupBlock.classList.remove("popup_is-opened");
-    }
-
-    imagePopupClose.addEventListener("click", closePopupImage);
+    imagePopupCloseButton.addEventListener("click", (event) => {closePopup (imagePopupBlock);});
 
   }
 
   elementImage.addEventListener("click", openPopupImage);
-
-  elements.prepend(element);
 
   const elementButtonLike = element.querySelector(".element__like")
   function like() {
@@ -111,37 +103,37 @@ function createElement(name, link) {
 
   elementButtonLike.addEventListener('click', like)
 
+  return element
+  
+}
+
+function addElement(name, link,){
+  elements.prepend(createElement(name, link));
 }
 
 for (let i = 0; i < initialCards.length; i += 1) {
- createElement(initialCards[i].name, initialCards[i].link)
+  addElement(initialCards[i].name, initialCards[i].link)
 }
 
 const addPopupOpenButton = document.querySelector(".profile__add-button");
 const addPopupBlock = document.querySelector(".popup_type_add");
-const addPopupClose = addPopupBlock.querySelector(".popup__close");
-const addPopupSave = addPopupBlock.querySelector(".popup__form");
+const addPopupCloseButton = addPopupBlock.querySelector(".popup__close");
+const addPopupForm = addPopupBlock.querySelector(".popup__form");
 
-let addPopupName = addPopupBlock.querySelector(".popup__input_value_name");
-let addPopupAbout = addPopupBlock.querySelector(".popup__input_value_about");
+const addPopupName = addPopupBlock.querySelector(".popup__input_value_name");
+const addPopupAbout = addPopupBlock.querySelector(".popup__input_value_about");
 
 function openAddPopup() {
-  addPopupBlock.classList.add("popup_is-opened");
-  addPopupName.value = ''
-  addPopupAbout.value =''
+  openPopup(addPopupBlock)
+  addPopupForm.reset()
 };
-
-function closeAddPopup () {
-  addPopupBlock.classList.remove("popup_is-opened");
-}
 
 function saveAddPopup (evt) {
   evt.preventDefault();
-  createElement(addPopupName.value, addPopupAbout.value)
-  closeAddPopup();
+addElement (addPopupName.value, addPopupAbout.value)
+  closePopup(addPopupBlock);
 };
 
 addPopupOpenButton.addEventListener("click", openAddPopup);
-addPopupClose.addEventListener("click", closeAddPopup);
-addPopupSave.addEventListener("submit", saveAddPopup);
-
+addPopupCloseButton.addEventListener("click", (event) => {closePopup (addPopupBlock);});
+addPopupForm.addEventListener("submit", saveAddPopup);
