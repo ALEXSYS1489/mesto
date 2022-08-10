@@ -10,6 +10,14 @@ const profileAbout = document.querySelector(".profile__about");
 
 function openPopup(popup) {
   popup.classList.add("popup_is-opened")
+
+  function closeListener(evt){
+    if (evt.key === "Escape"){
+      closePopup(popup);
+      document.removeEventListener("keydown", closeListener)
+    }
+  }
+  document.addEventListener("keydown", closeListener)
 }
 
 function closePopup(popup) {
@@ -25,25 +33,21 @@ function openEditPopup() {
 
 function saveEditPopup (evt) {
   evt.preventDefault();
-  const saveButton = editPopupBlock.querySelector(".popup__save_active");
-  saveButton.classList.remove("popup__save_active");
   profileName.textContent = editPopupName.value;
   profileAbout.textContent = editPopupAbout.value;
+  editPopupForm.reset()
+  toggleButtonState([editPopupName, editPopupAbout], setEventListeners(editPopupForm))
   closePopup (editPopupBlock);
 };
 
 editPopupOpenButton.addEventListener("click", openEditPopup);
-editPopupCloseButton.addEventListener("click", (event) => {closePopup (editPopupBlock);});
+editPopupCloseButton.addEventListener("click", (event) => {
+  closePopup (editPopupBlock);
+});
 editPopupForm.addEventListener("submit", saveEditPopup);
 
 editPopupBlock.addEventListener("click", (event) => {
   if (event.target === event.currentTarget){
-    closePopup (editPopupBlock);
-  }
-});
-
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape"){
     closePopup (editPopupBlock);
   }
 });
@@ -92,9 +96,10 @@ function createElement(name, link) {
     element.remove();
   })
 
+  const imagePopupBlock = document.querySelector(".popup_type_image");
+  const imagePopupCloseButton = imagePopupBlock.querySelector(".popup__close");
+
   function openPopupImage() {
-    const imagePopupBlock = document.querySelector(".popup_type_image");
-    const imagePopupCloseButton = imagePopupBlock.querySelector(".popup__close");
 
     const imagePopupImg = imagePopupBlock.querySelector(".popup__image");
     const imagePopupName = imagePopupBlock.querySelector(".popup__image-name");
@@ -104,23 +109,19 @@ function createElement(name, link) {
     imagePopupImg.setAttribute ('alt', name)
 
     openPopup(imagePopupBlock);
-
-    imagePopupCloseButton.addEventListener("click", (event) => {closePopup (imagePopupBlock);});
-
-    imagePopupBlock.addEventListener("click", (event) => {
-      if (event.target === event.currentTarget){
-        closePopup (imagePopupBlock);
-      }
-    });
-
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape"){
-        closePopup (imagePopupBlock);
-      }
-    });
-
-
   }
+
+  imagePopupCloseButton.addEventListener("click", (event) => {
+    closePopup (imagePopupBlock);
+  });
+
+  imagePopupBlock.addEventListener("click", (event) => {
+    if (event.target === event.currentTarget){
+      closePopup (imagePopupBlock);
+    }
+  });
+
+
 
   elementImage.addEventListener("click", openPopupImage);
 
@@ -159,14 +160,16 @@ function openAddPopup() {
 
 function saveAddPopup (evt) {
   evt.preventDefault();
-  const saveButton = addPopupBlock.querySelector(".popup__save_active");
-  saveButton.classList.remove("popup__save_active");
   addElement (addPopupName.value, addPopupAbout.value)
+  addPopupForm.reset()
+   toggleButtonState([addPopupName, addPopupAbout], setEventListeners(addPopupForm))
   closePopup(addPopupBlock);
 };
 
 addPopupOpenButton.addEventListener("click", openAddPopup);
-addPopupCloseButton.addEventListener("click", (event) => {closePopup (addPopupBlock);});
+addPopupCloseButton.addEventListener("click", (event) => {
+  closePopup (addPopupBlock);
+});
 addPopupForm.addEventListener("submit", saveAddPopup);
 
 addPopupBlock.addEventListener("click", (event) => {
@@ -175,19 +178,3 @@ addPopupBlock.addEventListener("click", (event) => {
   }
 });
 
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape"){
-    closePopup (addPopupBlock);
-  }
-});
-
-function delErrors (popup){
-  const errors = popup.querySelectorAll(".popup__error_active");
-  errors.forEach((error) => {
-    error.classList.remove("popup__error_active");
-  })
-  const inputs = popup.querySelectorAll(".popup__input_error");
-  inputs.forEach((input) => {
-    input.classList.remove("popup__input_error");
-  })
-}

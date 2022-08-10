@@ -8,7 +8,7 @@
   color: #FF0000;
   margin: 5px 0 0 36px;
   display: block;
-  min-height: 12px;
+  height: 12px;
 }
 
 @media (max-width: 767px) {

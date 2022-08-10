@@ -30,6 +30,7 @@ const setEventListeners = (formElement) => {
       toggleButtonState(inputList, buttonElement)
     });
   });
+  return buttonElement
 };
 
 const enableValidation = (classes) => {
@@ -63,3 +64,14 @@ const classes = {
 }
 
 enableValidation(classes);
+
+function delErrors (popup){
+  const errors = popup.querySelectorAll(".popup__error_active");
+  errors.forEach((error) => {
+    error.classList.remove("popup__error_active");
+  })
+  const inputs = popup.querySelectorAll(".popup__input_error");
+  inputs.forEach((input) => {
+    input.classList.remove("popup__input_error");
+  })
+}
