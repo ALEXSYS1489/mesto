@@ -1,6 +1,6 @@
 .popup__save {
   padding: 0;
-  margin: 31px 0 36px 36px;
+  margin: 13px 0 36px 36px;
   background-color: #fff;
   border-radius: 2px;
   width: 358px;
@@ -20,7 +20,7 @@
   .popup__save {
     font-size: 14px;
     line-height: 17px;
-    margin: 28px 0 36px 22px;
+    margin: 10px 0 36px 22px;
     width: 238px;
     height: 48px;
   }

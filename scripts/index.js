@@ -8,20 +8,24 @@ const editPopupAbout = editPopupBlock.querySelector(".popup__input_value_about")
 const profileName = document.querySelector(".profile__name");
 const profileAbout = document.querySelector(".profile__about");
 
+const imagePopupBlock = document.querySelector(".popup_type_image");
+
+function closeListener(evt){
+  if (evt.key === "Escape"){
+    closePopup (editPopupBlock);
+    closePopup (addPopupBlock);
+    closePopup (imagePopupBlock);
+  }
+}
+
 function openPopup(popup) {
   popup.classList.add("popup_is-opened")
-
-  function closeListener(evt){
-    if (evt.key === "Escape"){
-      closePopup(popup);
-      document.removeEventListener("keydown", closeListener)
-    }
-  }
-  document.addEventListener("keydown", closeListener)
+  document.addEventListener("keydown", closeListener);
 }
 
 function closePopup(popup) {
   popup.classList.remove("popup_is-opened");
+  document.removeEventListener("keydown", closeListener);
 }
 
 function openEditPopup() {
@@ -96,7 +100,7 @@ function createElement(name, link) {
     element.remove();
   })
 
-  const imagePopupBlock = document.querySelector(".popup_type_image");
+  //const imagePopupBlock = document.querySelector(".popup_type_image");
   const imagePopupCloseButton = imagePopupBlock.querySelector(".popup__close");
 
   function openPopupImage() {
