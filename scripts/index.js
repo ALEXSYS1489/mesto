@@ -1,3 +1,7 @@
+import { Card } from "./card.js";
+import {FormValidator} from "./FormValidator.js"
+
+
 const editPopupOpenButton = document.querySelector(".profile__edit-button");
 const editPopupBlock = document.querySelector(".popup_type_edit");
 const editPopupCloseButton = editPopupBlock.querySelector(".popup__close");
@@ -9,6 +13,15 @@ const profileName = document.querySelector(".profile__name");
 const profileAbout = document.querySelector(".profile__about");
 
 const imagePopupBlock = document.querySelector(".popup_type_image");
+
+const classes = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__save',
+  inactiveButtonClass: 'popup__save_active',
+  inputErrorClass: 'popup__input_error',
+  errorClass: 'popup__error_active'
+}
 
 function closeListener(evt){
   if (evt.key === "Escape"){
@@ -33,14 +46,17 @@ function openEditPopup() {
   editPopupName.value = profileName.textContent;
   editPopupAbout.value = profileAbout.textContent;
   delErrors(editPopupBlock)
+  const formValidator = new FormValidator(classes, editPopupForm)
+  formValidator.enableValidation()
 };
 
 function saveEditPopup (evt) {
   evt.preventDefault();
+  const saveButton = editPopupBlock.querySelector(".popup__save_active");
+  saveButton.classList.remove("popup__save_active");
   profileName.textContent = editPopupName.value;
   profileAbout.textContent = editPopupAbout.value;
   editPopupForm.reset()
-  toggleButtonState([editPopupName, editPopupAbout], setEventListeners(editPopupForm))
   closePopup (editPopupBlock);
 };
 
@@ -86,21 +102,12 @@ const initialCards = [
   }
 ];
 
-function createElement(name, link) {
-  const element = elementTemplete.cloneNode(true);
-  const elementImage = element.querySelector(".element__image");
-  const elementName = element.querySelector(".element__name");
+function addElement(name, link,){
+  const card = new Card (name, link, elementTemplete)
+  elements.prepend(card.createElement(name, link));
 
-  elementName.textContent = name;
-  elementImage.setAttribute ('src', link)
-  elementImage.setAttribute ('alt', name)
 
-  const elementButtonDel = element.querySelector(".element__remove")
-  elementButtonDel.addEventListener('click', function(){
-    element.remove();
-  })
 
-  //const imagePopupBlock = document.querySelector(".popup_type_image");
   const imagePopupCloseButton = imagePopupBlock.querySelector(".popup__close");
 
   function openPopupImage() {
@@ -125,24 +132,13 @@ function createElement(name, link) {
     }
   });
 
-
+  const elementImage = card.card.querySelector(".element__image");
 
   elementImage.addEventListener("click", openPopupImage);
 
-  const elementButtonLike = element.querySelector(".element__like")
-  function like() {
-    elementButtonLike.classList.toggle("element__like_active")
-  }
-
-  elementButtonLike.addEventListener('click', like)
-
-  return element
-
 }
 
-function addElement(name, link,){
-  elements.prepend(createElement(name, link));
-}
+
 
 for (let i = 0; i < initialCards.length; i += 1) {
   addElement(initialCards[i].name, initialCards[i].link)
@@ -160,13 +156,16 @@ function openAddPopup() {
   openPopup(addPopupBlock)
   addPopupForm.reset()
   delErrors(addPopupBlock)
+  const formValidator = new FormValidator(classes, addPopupForm)
+  formValidator.enableValidation()
 };
 
 function saveAddPopup (evt) {
   evt.preventDefault();
   addElement (addPopupName.value, addPopupAbout.value)
   addPopupForm.reset()
-   toggleButtonState([addPopupName, addPopupAbout], setEventListeners(addPopupForm))
+  const saveButton = addPopupBlock.querySelector(".popup__save_active");
+  saveButton.classList.remove("popup__save_active");
   closePopup(addPopupBlock);
 };
 
@@ -181,4 +180,17 @@ addPopupBlock.addEventListener("click", (event) => {
     closePopup (addPopupBlock);
   }
 });
+
+
+function delErrors (popup){
+  const errors = popup.querySelectorAll(".popup__error_active");
+  errors.forEach((error) => {
+    error.classList.remove("popup__error_active");
+  })
+  const inputs = popup.querySelectorAll(".popup__input_error");
+  inputs.forEach((input) => {
+    input.classList.remove("popup__input_error");
+  })
+}
+
 
