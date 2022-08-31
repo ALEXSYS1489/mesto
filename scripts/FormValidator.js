@@ -29,19 +29,19 @@ export class FormValidator {
     }
   };
 
-  _setEventListeners = () => {
-    this.toggleButtonState (this._inputList, this._buttonElement)
+  setEventListeners = () => {
+    this._toggleButtonState (this._inputList, this._buttonElement)
     this._inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', ()=> {
         this._checkInputValidity(this._form, inputElement);
-        this.toggleButtonState(this._inputList, this._buttonElement)
+        this._toggleButtonState(this._inputList, this._buttonElement)
       });
     });
     return this._buttonElement
   };
 
   enableValidation = () => {
-    this._setEventListeners ()
+    this.setEventListeners ()
   }
 
   _hasInvalidInput(inputList) {
@@ -50,7 +50,7 @@ export class FormValidator {
     })
   };
 
-  toggleButtonState (inputList, buttonElement){
+  _toggleButtonState (inputList, buttonElement){
     if (this._hasInvalidInput(inputList)) {
       buttonElement.setAttribute('disabled', 'disabled');
       buttonElement.classList.remove(this._classes.inactiveButtonClass);
@@ -61,15 +61,9 @@ export class FormValidator {
   };
 
   deleteErrors (){
-    this._errors = this._form.querySelectorAll(".popup__error_active");
-    this._errors.forEach((error) => {
-      error.classList.remove("popup__error_active");
-    })
-    this._inputs = this._form.querySelectorAll(".popup__input_error");
-    this._inputs.forEach((input) => {
-      input.classList.remove("popup__input_error");
+    this._inputList.forEach((inputElement) => {
+    this._hideInputError(this._form, inputElement)
     })
   }
-
 
 }
