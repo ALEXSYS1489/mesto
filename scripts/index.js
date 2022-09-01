@@ -95,7 +95,7 @@ function saveEditPopup (evt) {
   profileAbout.textContent = aboutPopupProfile.value;
   closePopup (blockPopupProfile);
   formPopupProfile.reset()
-  profileValidator.setEventListeners()
+  profileValidator.toggleButtonState()
 };
 
 function addElement(name, link,){
@@ -116,7 +116,7 @@ function saveAddPopup (evt) {
   elements.prepend (addElement (addName.value, addAbout.value))
   closePopup(blockPopupAdd);
   formPopupAdd.reset()
-  addValidator.setEventListeners()
+  addValidator.toggleButtonState()
 };
 
 buttonOpenPopupAdd.addEventListener("click", openAddPopup);
