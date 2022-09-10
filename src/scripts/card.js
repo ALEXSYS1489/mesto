@@ -1,10 +1,10 @@
-import * as data from './index.js'
 export class Card {
 
-  constructor(name, link, templete){
+  constructor(name, link, templete, handleCardClick){
   this._name = name
   this._link = link
   this._templete = templete
+  this._handleCardClick = handleCardClick
   }
 
   createElement(_name, _link) {
@@ -39,16 +39,7 @@ export class Card {
       this._elementButtonLike.classList.toggle("element__like_active")})
   }
 
-  _openPopupImage =()=>{
-
-    data.namePopupImage.textContent = this._name
-    data.imagePopupImage.setAttribute ('src', this._link)
-    data.imagePopupImage.setAttribute ('alt', this._name)
-
-    data.openPopup(data.blockPopupImage);
-  }
-
   _openElement(){
-    this._elementImage.addEventListener("click", this._openPopupImage);
+    this._elementImage.addEventListener("click", this._handleCardClick);
   }
 }
