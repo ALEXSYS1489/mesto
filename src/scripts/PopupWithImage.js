@@ -1,17 +1,20 @@
 import { Popup } from "./Popup.js";
 
 export class PopupWithImage extends Popup {
-  constructor(popapSelector){
-  super(popapSelector)
-  this._name = this._popapSelector.querySelector(".popup__image-name");
-  this._image = this._popapSelector.querySelector(".popup__image");
+  constructor(popap){
+  super(popap)
+  this._name = this._popap.querySelector(".popup__image-name");
+  this._image = this._popap.querySelector(".popup__image");
   }
 
   open(cardName, cardImage){
+    super.open()
     this._name.textContent = cardName
     this._image.setAttribute ('src', cardImage)
     this._image.setAttribute ('alt', cardName)
-    this._popapSelector.classList.add("popup_is-opened")
+  }
 
+  close(){
+    super.close()
   }
 }

@@ -1,39 +1,34 @@
+import * as utils from "../scripts/utils.js";
 import { Popup } from "./Popup.js";
 
 export class PopupWithForm extends Popup {
-  constructor(popapSelector, callback) {
-  super(popapSelector)
+  constructor(popap, callback) {
+  super(popap)
   this._callback = callback
-  this._form = this._popapSelector.querySelector(".popup__form");
-  this._name = this._popapSelector.querySelector(".popup__input_value_name");
-  this._about = this._popapSelector.querySelector(".popup__input_value_about");
+  this._form = this._popap.querySelector(".popup__form");
+  this.inputs = this._form.querySelectorAll(".popup__input");
   }
 
-  getInputValues(){
-  this.values = {name: this._name.value, about:this._about.value}
+  _getInputValues(){
+  this.values = {name: this.inputs[0].value, about: this.inputs[1].value}
   return this.values
   }
 
-  setEventListeners = () => {
-    document.addEventListener("keydown", this._handleEscClose);
-
-    this._buttonClosePopup.addEventListener("click", (event) => {
-      this.close (this._popapSelector);
-    });
-
-    this._popapSelector.addEventListener("click", (event) => {
-      if (event.target === event.currentTarget){
-        this.close (this._popapSelector);
-      }
-    });
-
-    this._form.addEventListener("submit", this._callback);
+  setEventListeners(){
+    super.setEventListeners();
+    this._form.addEventListener("submit", this._submit.bind(this));
   }
 
   close(){
-    this._popapSelector.classList.remove("popup_is-opened");
-    document.removeEventListener("keydown", this._handleEscClose);
-    this._form.removeEventListener("submit", this._callback);
-    this._form.reset()
+    super.close();
+    this._form.reset();
+  }
+
+  _submit(evt){
+    evt.preventDefault();
+    this._getInputValues()
+    this._callback()
+    this.close()
+    
   }
 }

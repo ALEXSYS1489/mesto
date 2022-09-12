@@ -1,36 +1,37 @@
 export class Popup {
-  constructor(popapSelector) {
-this._popapSelector = popapSelector
-this._buttonClosePopup = this._popapSelector.querySelector(".popup__close");
+  constructor(popap) {
+this._popap = popap
+this._buttonClosePopup = this._popap.querySelector(".popup__close");
   }
 
-  open() {
-    this._popapSelector.classList.add("popup_is-opened")
+  open(){
+    this._popap.classList.add("popup_is-opened")
+    document.addEventListener("keydown", this._handleEscClose.bind(this));
   }
 
   close(){
-    this._popapSelector.classList.remove("popup_is-opened");
+    this._popap.classList.remove("popup_is-opened");
     document.removeEventListener("keydown", this._handleEscClose);
   }
 
-  _handleEscClose = (evt) => {
+  _handleEscClose(evt){
     if (evt.key === "Escape"){
-      this.close(this._popapSelector);
+      this.close(this._popap);
     }
   }
 
-  setEventListeners = () => {
-    document.addEventListener("keydown", this._handleEscClose);
+  setEventListeners(){
 
     this._buttonClosePopup.addEventListener("click", (event) => {
-      this.close (this._popapSelector);
+      this.close (this._popap);
     });
 
-    this._popapSelector.addEventListener("click", (event) => {
+    this._popap.addEventListener("click", (event) => {
       if (event.target === event.currentTarget){
-        this.close (this._popapSelector);
+        this.close (this._popap);
       }
     });
 
   }
 }
+
