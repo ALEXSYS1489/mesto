@@ -8,10 +8,10 @@ export class PopupWithImage extends Popup {
   }
 
   open(cardName, cardImage){
-    super.open()
     this._name.textContent = cardName
     this._image.setAttribute ('src', cardImage)
     this._image.setAttribute ('alt', cardName)
+    super.open()
   }
 
   close(){

@@ -8,8 +8,8 @@ import { PopupWithForm } from "./scripts/PopupWithForm.js";
 import { UserInfo } from "./scripts/UserInfo.js";
 
 
-const addValidator = new FormValidator(utils.classes, utils.formPopupAdd)
-const profileValidator = new FormValidator(utils.classes, utils.formPopupProfile)
+export const addValidator = new FormValidator(utils.classes, utils.formPopupAdd)
+export const profileValidator = new FormValidator(utils.classes, utils.formPopupProfile)
 
 const section = new Section({
   items: utils.initialCards,
@@ -21,31 +21,29 @@ const section = new Section({
 utils.elements
 )
 
-const user = new UserInfo({userName: utils.profileName, userAbout: utils.profileAbout})
+export const user = new UserInfo({userName: utils.profileName, userAbout: utils.profileAbout})
 
 const blockPopupProfileWithForm  = new PopupWithForm (utils.blockPopupProfile, ()=>{
-  user.setUserInfo(blockPopupProfileWithForm.values.name, blockPopupProfileWithForm.values.about)
-  profileValidator.toggleButtonState()
+  blockPopupProfileWithForm.editProfile()
 })
 
 const blockPopupAddWithForm  = new PopupWithForm (utils.blockPopupAdd, ()=>{
-  utils.elements.prepend (addElement (blockPopupAddWithForm.values.name, blockPopupAddWithForm.values.about))
-  profileValidator.toggleButtonState()
+  blockPopupAddWithForm.addCard()
 })
 
 const image = new PopupWithImage(utils.blockPopupImage)
 
 function openEditPopup() {
-  utils.namePopupProfile.value = utils.profileName.textContent;
-  utils.aboutPopupProfile.value = utils.profileAbout.textContent;
+  user.getUserInfo()
+  utils.namePopupProfile.value = user.info.name;
+  utils.aboutPopupProfile.value = user.info.about;
   profileValidator.deleteErrors()
   blockPopupProfileWithForm.open()
 };
 
-function addElement(name, link,){
+export function addElement(name, link,){
   const card = new Card (name, link, utils.elementTemplete, ()=>{
     image.open(name, link)
-    image.setEventListeners()
     })
   const element = card.createElement(name, link)
 
@@ -67,3 +65,4 @@ profileValidator.enableValidation()
 section.renderItems()
 blockPopupProfileWithForm.setEventListeners()
 blockPopupAddWithForm.setEventListeners()
+image.setEventListeners()
