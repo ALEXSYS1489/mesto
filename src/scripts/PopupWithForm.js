@@ -8,7 +8,6 @@ export class PopupWithForm extends Popup {
   this._callback = callback
   this._form = this._popap.querySelector(".popup__form");
   this.inputs = this._form.querySelectorAll(".popup__input");
-  this._submit = this._submit.bind(this)
   }
 
   _getInputValues(){
@@ -21,28 +20,14 @@ export class PopupWithForm extends Popup {
 
   setEventListeners(){
     super.setEventListeners();
-    this._form.addEventListener("submit", this._submit);
+    this._form.addEventListener("submit", (evt) => {
+      evt.preventDefault();
+      this._callback(this._getInputValues());
+    })
   }
 
   close(){
     super.close();
     this._form.reset();
-  }
-
-  _submit(evt){
-    evt.preventDefault();
-    this._getInputValues()
-    this._callback()
-    this.close()
-    index.profileValidator.toggleButtonState()
-    index.addValidator.toggleButtonState()
-  }
-
-  editProfile() {
-    index.user.setUserInfo(this._values.name, this._values.about)
-  }
-
-  addCard() {
-    utils.elements.prepend (index.addElement (this._values.name, this._values.link))
   }
 }

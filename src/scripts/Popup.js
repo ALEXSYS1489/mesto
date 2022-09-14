@@ -1,12 +1,13 @@
 export class Popup {
   constructor(popap) {
-this._popap = popap
+this._popap = popap;
 this._buttonClosePopup = this._popap.querySelector(".popup__close");
+this._handleEscClose = this._handleEscClose.bind(this);
   }
 
   open(){
     this._popap.classList.add("popup_is-opened")
-    document.addEventListener("keydown", this._handleEscClose.bind(this));
+    document.addEventListener("keydown", this._handleEscClose);
   }
 
   close(){
