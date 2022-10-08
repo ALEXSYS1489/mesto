@@ -10,6 +10,8 @@
   top: 20px;
   right: 20px;
   background-size: cover;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .element__remove:hover {

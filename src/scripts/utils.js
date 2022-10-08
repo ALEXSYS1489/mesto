@@ -16,6 +16,13 @@ export const formPopupAdd = blockPopupAdd.querySelector(".popup__form");
 
 export const blockPopupImage = document.querySelector(".popup_type_image");
 
+export const blockPopupAvatar = document.querySelector(".popup_type_avatar");
+export const formPopupAvatar= blockPopupAvatar.querySelector(".popup__form");
+export const buttonOpenPopupAvatar = document.querySelector(".profile__avatar-button");
+export const imageAvatar = document.querySelector(".profile__image");
+
+export const blockPopupConfirm = document.querySelector(".popup_type_confirm");
+
 export const classes = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -25,36 +32,11 @@ export const classes = {
   errorClass: 'popup__error_active'
 }
 
-import aleksandrgrekov from '../images/elements/aleksandr-grekov-9OCd1cApeH4-unsplash(1).jpg';
-import gillestrenson from '../images/elements/gilles-trenson-t9MP5ZyTxlI-unsplash.jpg';
-import julienriedel from '../images/elements/julien-riedel-9QFd5NlZG8M-unsplash.jpg';
-import kevinstaub from '../images/elements/kevin-staub-CQKbIM0OeCc-unsplash.jpg';
-import sharadbhat from '../images/elements/sharad-bhat-Z4s2K8GQ5QE-unsplash.jpg';
-import tingfengxia from '../images/elements/tingfeng-xia-Z96hjT7XuMM-unsplash.jpg';
-
-export const initialCards = [
-  {
-    name: 'Водопад',
-    link: aleksandrgrekov
-  },
-  {
-    name: 'Скала',
-    link: gillestrenson
-  },
-  {
-    name: 'Часовня',
-    link: julienriedel
-  },
-  {
-    name: 'Лес',
-    link: kevinstaub
-  },
-  {
-    name: 'Туман',
-    link: sharadbhat
-  },
-  {
-    name: 'Берег',
-    link: tingfengxia
+export const conf = {
+  id: "cohort-51",
+  url: "https://mesto.nomoreparties.co",
+  headers: {
+    authorization: 'c544db48-3dd6-45bf-8d5d-369e754e242d',
+    'Content-Type': 'application/json'
   }
-];
+}
