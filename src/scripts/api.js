@@ -3,11 +3,12 @@ export class Api {
     this._url = config.url
     this._headers = config.headers
     this._id = config.id
+    this._link = `${this._url}/v1/${this._id}`
   }
 
   getAllCards(){
-    return fetch(`${this._url}/v1/${this._id}/cards`, {
-        headers: this._headers
+    return fetch(`${this._link}/cards`, {
+      headers: this._headers
     })
     .then((res)=>{
         return this._onResponce(res)
@@ -15,8 +16,8 @@ export class Api {
   }
 
   getUser(){
-    return fetch(`${this._url}/v1/${this._id}/users/me`, {
-        headers: this._headers
+    return fetch(`${this._link}/users/me`, {
+      headers: this._headers
     })
     .then((res)=>{
       return this._onResponce(res)
@@ -24,31 +25,31 @@ export class Api {
   }
 
   editUser(name, about) {
-    return fetch(`${this._url}/v1/${this._id}/users/me`, {
-  method: 'PATCH',
-  headers: this._headers,
-  body: JSON.stringify({
-    name: name,
-    about: about
-  })
-})
-.then((res)=>{
-  return this._onResponce(res)
-});  
+    return fetch(`${this._link}/users/me`, {
+      method: 'PATCH',
+      headers: this._headers,
+      body: JSON.stringify({
+        name: name,
+        about: about
+      })
+    })
+    .then((res)=>{
+      return this._onResponce(res)
+    });  
   }
 
   deleteCard(idCard){
-    return fetch(`${this._url}/v1/${this._id}/cards/${idCard}`, {
+    return fetch(`${this._link}/cards/${idCard}`, {
       method: 'DELETE',
       headers: this._headers
-  })
-  .then((res)=>{
-    return this._onResponce(res)
-  })
+    })
+    .then((res)=>{
+      return this._onResponce(res)
+    })
   }
 
   addCard(name, link){
-    return fetch(`${this._url}/v1/${this._id}/cards`, {
+    return fetch(`${this._link}/cards`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
@@ -58,7 +59,7 @@ export class Api {
     })
     .then((res)=>{
       return this._onResponce(res)
-  }); 
+    }); 
   }
 
   _onResponce(res){
@@ -69,18 +70,17 @@ export class Api {
   }
 
 addLike(idCard){
-  return fetch(`${this._url}/v1/${this._id}/cards/${idCard}/likes`, {
+  return fetch(`${this._link}/cards/${idCard}/likes`, {
     method: 'PUT',
     headers: this._headers,
   })
   .then((res)=>{
     return this._onResponce(res)
-}); 
-
+  }); 
 }
 
 deleteLike(idCard){
-  return fetch(`${this._url}/v1/${this._id}/cards/${idCard}/likes`, {
+  return fetch(`${this._link}/cards/${idCard}/likes`, {
     method: 'DELETE',
     headers: this._headers,
   })
@@ -90,17 +90,16 @@ deleteLike(idCard){
 }
 
 editAvatar(avatar) {
-  return fetch(`${this._url}/v1/${this._id}/users/me/avatar`, {
-  method: 'PATCH',
-  headers: this._headers,
-  body: JSON.stringify({
-  avatar: avatar
-  })
+  return fetch(`${this._link}/users/me/avatar`, {
+    method: 'PATCH',
+    headers: this._headers,
+    body: JSON.stringify({
+      avatar: avatar
+    })
   })
   .then((res)=>{
-  return this._onResponce(res)
+    return this._onResponce(res)
   });  
 }
-
 
 }

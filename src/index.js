@@ -1,31 +1,33 @@
 import './pages/index.css'
 import * as utils from "./scripts/utils.js";
-import { Card } from "./scripts/card.js";
+import { Card } from "./scripts/Card.js";
 import {FormValidator} from "./scripts/FormValidator.js"
 import { Section } from "./scripts/Section.js";
 import { PopupWithImage } from "./scripts/PopupWithImage.js";
 import { PopupWithForm } from "./scripts/PopupWithForm.js";
 import { PopupConfirm } from './scripts/PopupConfirm.js';
 import { UserInfo } from "./scripts/UserInfo.js";
-import { Api } from "./scripts/api.js";
+import { Api } from "./scripts/Api.js";
 
 const api = new Api (utils.conf)
-const addValidator = new FormValidator(utils.classes, utils.formPopupAdd)
-const profileValidator = new FormValidator(utils.classes, utils.formPopupProfile)
-const avatarValidator = new FormValidator(utils.classes, utils.formPopupAvatar)
+const addValidator = new FormValidator(utils.validationConfig, utils.formPopupAdd)
+const profileValidator = new FormValidator(utils.validationConfig, utils.formPopupProfile)
+const avatarValidator = new FormValidator(utils.validationConfig, utils.formPopupAvatar)
 
-export const user = new UserInfo({userName: utils.profileName, userAbout: utils.profileAbout})
+export const user = new UserInfo({userName: utils.profileName, userAbout: utils.profileAbout, avatar: utils.imageAvatar})
 
 const blockPopupProfileWithForm  = new PopupWithForm (utils.blockPopupProfile, (values)=>{
 
   blockPopupProfileWithForm.buttonSave.textContent = "Сохранение..."
-  user.setUserInfo(values.name, values.about)
   blockPopupProfileWithForm.close()
   profileValidator.toggleButtonState()
-
-api.editUser(values.name, values.about)
+  
+  api.editUser(values.name, values.about)
+  .then((data)=>{
+    user.setUserInfo(data)
+  })
   .catch((err)=>{
-    console.log('Ошибка', err )
+    console.log('Ошибка сервера', err )
   })
   .finally(()=>{
     blockPopupProfileWithForm.buttonSave.textContent = "Сохраненить"
@@ -38,12 +40,12 @@ const blockPopupAddWithForm  = new PopupWithForm (utils.blockPopupAdd, (values)=
 blockPopupAddWithForm.buttonSave.textContent = "Сохранение..."
 api.addCard(values.name, values.link)
 .then((data)=>{
-  utils.elements.prepend (addElement (data))
+  section.addItem(createCard (data))
   blockPopupAddWithForm.close()
   addValidator.toggleButtonState()
 })
 .catch((err)=>{
-  console.log('Ошибка', err )
+  console.log('Ошибка сервера', err )
 })
 .finally(()=>{
   blockPopupAddWithForm.buttonSave.textContent = "Сохраненить"
@@ -51,20 +53,20 @@ api.addCard(values.name, values.link)
 
 })
 
-const blockPopupEditAvarar = new PopupWithForm (utils.blockPopupAvatar, (values)=>{
+const blockPopupEditAvatar = new PopupWithForm (utils.blockPopupAvatar, (values)=>{
 
-  blockPopupEditAvarar.buttonSave.textContent = "Сохранение..."
+  blockPopupEditAvatar.buttonSave.textContent = "Сохранение..."
   api.editAvatar(values.avatar)
   .then((data)=>{
-    utils.imageAvatar.setAttribute ('src', data.avatar)
-    blockPopupEditAvarar.close()
+    user.setUserInfo(data)
+    blockPopupEditAvatar.close()
     avatarValidator.toggleButtonState()
   })
   .catch((err)=>{
-    console.log('Ошибка', err )
+    console.log('Ошибка сервера', err )
   })
   .finally(()=>{
-    blockPopupEditAvarar.buttonSave.textContent = "Сохраненить"
+    blockPopupEditAvatar.buttonSave.textContent = "Сохраненить"
   })
   
   })
@@ -72,16 +74,24 @@ const blockPopupEditAvarar = new PopupWithForm (utils.blockPopupAvatar, (values)
 const image = new PopupWithImage(utils.blockPopupImage)
 
 const popupConfirm = new PopupConfirm (utils.blockPopupConfirm,(element)=>{
-  console.log(123)
   api.deleteCard(element.getId())
   .then(()=>{
     element.removeCard()
     popupConfirm.close()
   })
   .catch((err)=>{
-    console.log('Ошибка', err )
+    console.log('Ошибка сервера', err )
   })
 })
+
+const section = new Section({
+  renderer: (element, user)=>{
+    const card = createCard(element, user)
+    section.addItem(card)
+    }
+  },
+  utils.cardsContainer
+)
 
 
 
@@ -93,8 +103,8 @@ function openEditPopup() {
   blockPopupProfileWithForm.open()
 };
 
-function addElement(data){
-  const card = new Card (data, utils.elementTemplete,
+function createCard(data, user){
+  const card = new Card (data, user, utils.elementTemplete,
     
     ()=>{
       image.open(data.name, data.link)
@@ -102,23 +112,35 @@ function addElement(data){
 
     (element)=>{
       popupConfirm.open()
-      popupConfirm.getElement(element)
+      popupConfirm.setElement(element)
     },
     
     ()=>{
       if(card.getLike()){
         api.deleteLike(card.getId())
-        .then((data)=>{card.getLikes(data.likes)})
+        .then((data)=>{
+          card.setLikes(data.likes)
+          card.updateLikes()
+        })
+        .catch((err)=>{
+          console.log('Ошибка сервера', err )
+        })
       }
       else{
         api.addLike(card.getId())
-        .then((data)=>{card.getLikes(data.likes)})
+        .then((data)=>{
+          card.setLikes(data.likes)
+          card.updateLikes()
+        })
+        .catch((err)=>{
+          console.log('Ошибка сервера', err )
+        })
       }
     }
     )
 
 
-  const element = card.createElement(data.name, data.link)
+  const element = card.createElement()
 
   return element
 }
@@ -131,7 +153,7 @@ function openAddPopup() {
 
 function openEditAvatarPopup() {
   avatarValidator.deleteErrors()
-  blockPopupEditAvarar.open()
+  blockPopupEditAvatar.open()
 };
 
 
@@ -147,36 +169,19 @@ blockPopupAddWithForm.setEventListeners()
 image.setEventListeners()
 popupConfirm.setEventListeners()
 avatarValidator.enableValidation()
-blockPopupEditAvarar.setEventListeners()
+blockPopupEditAvatar.setEventListeners()
 
 
 
 
-api.getUser()
-  .then((data)=>{
-    user.setUserInfo(data.name, data.about)
-    utils.imageAvatar.setAttribute ('src', data.avatar)
+Promise.all([api.getUser(), api.getAllCards()])
+  .then((results) => {
+    user.setUserInfo(results[0])
+
+    section.renderItems(results[1],results[0])
   })
   .catch((err)=>{
-    console.log('Ошибка', err )
+    console.log('Ошибка сервера', err )
   })
 
-
-api.getAllCards()
-  .then ((data)=>{
-    const section = new Section({
-      items: data,
-      renderer: (element)=>{
-        const card = addElement(element)
-        section.addItem(card)
-        }
-      },
-      utils.elements
-    )
   
-    section.renderItems()
-})
-  .catch((err)=>{
-    console.log('Ошибка', err )
-  })
-

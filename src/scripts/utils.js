@@ -7,7 +7,7 @@ export const aboutPopupProfile = blockPopupProfile.querySelector(".popup__input_
 export const profileName = document.querySelector(".profile__name");
 export const profileAbout = document.querySelector(".profile__about");
 
-export const elements = document.querySelector('.elements')
+export const cardsContainer = document.querySelector('.elements')
 export const elementTemplete = document.querySelector("#element-template").content.querySelector(".element")
 
 export const buttonOpenPopupAdd = document.querySelector(".profile__add-button");
@@ -23,13 +23,14 @@ export const imageAvatar = document.querySelector(".profile__image");
 
 export const blockPopupConfirm = document.querySelector(".popup_type_confirm");
 
-export const classes = {
+export const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__save',
   inactiveButtonClass: 'popup__save_active',
   inputErrorClass: 'popup__input_error',
-  errorClass: 'popup__error_active'
+  errorClass: 'popup__error_active',
+  popupErrorType:'.popup__error_type_'
 }
 
 export const conf = {
