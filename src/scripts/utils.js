@@ -23,6 +23,8 @@ export const imageAvatar = document.querySelector(".profile__image");
 
 export const blockPopupConfirm = document.querySelector(".popup_type_confirm");
 
+export let userData ={}
+
 export const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',

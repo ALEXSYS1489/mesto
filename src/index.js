@@ -35,9 +35,9 @@ const blockPopupProfileWithForm  = new PopupWithForm (utils.blockPopupProfile, (
 
 const blockPopupAddWithForm  = new PopupWithForm (utils.blockPopupAdd, (values)=>{
   blockPopupAddWithForm.buttonSave.textContent = "Сохранение..."
-  Promise.all([api.getUser(), api.addCard(values.name, values.link)])
-    .then((results) => {
-      cardsSection.addItem(createCard (results[1], results[0]))
+  api.addCard(values.name, values.link)
+    .then((data) => {
+      cardsSection.addItem(createCard (data, utils.userData.data))
       blockPopupAddWithForm.close()
       addValidator.toggleButtonState()
     })
@@ -169,11 +169,11 @@ blockPopupEditAvatar.setEventListeners()
 
 
 
-
 Promise.all([api.getUser(), api.getAllCards()])
   .then((results) => {
     user.setUserInfo(results[0])
     cardsSection.renderItems({items: results[1], user: results[0]})
+    utils.userData.data = results[0]
   })
   .catch((err)=>{
     console.log('Ошибка сервера', err )

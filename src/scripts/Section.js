@@ -5,13 +5,14 @@ export class Section {
   }
 
   renderItems({items, user}) {
-    items.forEach(item => {
+    const data = items.reverse()
+    data.forEach(item => {
       this._renderer({element: item, user: user});
     });
   }
 
   addItem(element) {
-    this._container.append(element);
+    this._container.prepend(element);
   }
   
 }
